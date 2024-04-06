@@ -9,6 +9,9 @@ W = 1280
 H = 720
 FPS = 60
 clock = pg.time.Clock()
+speed = 10
+object_speed = speed
+player_speed = 0
 
 
 
@@ -53,9 +56,11 @@ while not game_over:
         apple.y = -50
 
     keys = pg.key.get_pressed()
-    p_speed = 0
     if keys[pg.K_LEFT]:
-        p_speed = -10
+        player_speed = -speed
     elif keys[pg.K_RIGHT]:
-        p_speed = 10
+        player_speed = speed
+    else:
+        player_speed = 0
+    gl.player_motion(player, player_speed, W)
 
