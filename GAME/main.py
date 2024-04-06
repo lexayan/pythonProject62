@@ -13,7 +13,9 @@ speed = 10
 object_speed = speed
 player_speed = 0
 
-
+score, miss = 0, 0
+pg.font.init()
+score_font = pg.font.SysFont('Arial', 32)
 
 #COLORS
 GRAY = (79, 74, 71)
@@ -38,6 +40,10 @@ pg.display.set_caption('Catch an apple')
 game_over = False
 
 while not game_over:
+    if miss >= 3:
+        game_over = True
+
+
     clock.tick(FPS)
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -47,13 +53,12 @@ while not game_over:
     pg.draw.rect(screen, BROWN, player)
     pg.draw.ellipse(screen, RED, apple)
 
-
+    score_text = score_font.render(f'Score: {score}', True, (107, 237, 185))
+    miss_text = score_font.render(f'Miss: {miss}', True, (107, 237, 185))
     pg.display.update()
 
-    apple.y += 5
-    if apple.bottom > H:
-        apple.x = r.randint(40, W-40)
-        apple.y = -50
+
+    apple_catch = gl.opponent_motion(apple, object_speed, W, H, player)
 
     keys = pg.key.get_pressed()
     if keys[pg.K_LEFT]:
@@ -63,4 +68,5 @@ while not game_over:
     else:
         player_speed = 0
     gl.player_motion(player, player_speed, W)
+
 
